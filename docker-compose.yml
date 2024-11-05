@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  evotp3apidb:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: ${EVOTP3APIDB_DB}
+      POSTGRES_USER: ${EVOTP3APIDB_USER}
+      POSTGRES_PASSWORD: ${EVOTP3APIDB_PASSWORD}
+    networks:
+      - evotp3api
+    ports:
+      - "5432:5432"
+
+  evotp3api:
+    build: evotp3api
+    image: evotp3api
+    restart: always
+    environment:
+      DB_URL: ${EVOTP3APIDB_URL}
+      DB_USER: ${EVOTP3APIDB_USER}
+      DB_PASSWORD: ${EVOTP3APIDB_PASSWORD}
+    networks:
+      - evotp3api
+    depends_on:
+      - evotp3apidb
+    ports:
+      - "8000:8000"
+
+networks:
+  evotp3api:
