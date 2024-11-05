@@ -21,9 +21,6 @@ public class JWTService {
     private String securityHmac;
 
     private final Algorithm algorithm = Algorithm.HMAC256(getSecurityHmac());
-    private final JWTVerifier verifier = JWT.require(algorithm)
-            .withIssuer(getIssuer())
-            .build();
 
     /**
      * Créer un {@link JWT} pour l'utilisateur donnée valide pendant 1 mois.
@@ -50,7 +47,12 @@ public class JWTService {
      */
     public Optional<String> extractUsername(String jwt) {
         try {
-            return Optional.of(verifier.verify(jwt).getClaim("username").asString());
+            return Optional.of(JWT.require(algorithm)
+                    .withIssuer(getIssuer())
+                    .build()
+                    .verify(jwt)
+                    .getClaim("username")
+                    .asString());
         } catch (Exception e) {
             e.printStackTrace();
         }
