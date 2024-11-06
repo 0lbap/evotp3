@@ -6,6 +6,10 @@
                     pattern="%style{%d{ISO8601}}{gray} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1}}{bright,yellow}: %msg%n%throwable" />
         </Console>
 
+        <Console name="ConsoleJSONAppender" target="SYSTEM_OUT">
+            <JsonLayout complete="false" compact="false" />
+        </Console>
+
         <RollingFile name="RollingFile"
                      fileName="./logs/spring-boot-logger-log4j2.log"
                      filePattern="./logs/$${date:yyyy-MM}/spring-boot-logger-log4j2-%d{-dd-MMMM-yyyy}-%i.log.gz">
@@ -30,8 +34,9 @@
             <AppenderRef ref="RollingFile" />
         </Root>
 
-        <!-- LOG "com.baeldung*" at TRACE level -->
-        <Logger name="com.baeldung" level="trace"></Logger>
+        <Logger name="USER_PROFILING_LOGGER" level="TRACE" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender" />
+        </Logger>
     </Loggers>
 
 </Configuration>

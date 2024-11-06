@@ -17,7 +17,7 @@ public class ProductController {
 
     private final ProductRepository productRepository;
 
-    private final Logger logger = LoggerFactory.getLogger(ProductController.class);
+    private final Logger logger = LoggerFactory.getLogger("USER_PROFILING_LOGGER");
 
     public ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -25,7 +25,7 @@ public class ProductController {
 
     @GetMapping
     public List<Product> list() {
-        logger.info("User xxx is retrieving data from the database");
+        logger.info("User is retrieving data from the database");
         return productRepository.findAll();
     }
 
