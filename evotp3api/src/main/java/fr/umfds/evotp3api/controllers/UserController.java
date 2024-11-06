@@ -53,8 +53,8 @@ public class UserController {
         if (userRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found");
         }
-        User existingRating = userRepository.getReferenceById(id);
-        BeanUtils.copyProperties(user, existingRating, "id");
-        return userRepository.saveAndFlush(existingRating);
+        User existingUser = userRepository.getReferenceById(id);
+        BeanUtils.copyProperties(user, existingUser, "id");
+        return userRepository.saveAndFlush(existingUser);
     }
 }

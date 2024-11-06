@@ -28,6 +28,8 @@ services:
       - evotp3apidb
     ports:
       - "8000:8000"
+    volumes:
+      - ./logs:/logs
 
 networks:
   evotp3api:

@@ -39,6 +39,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-log4j2")
     implementation("org.apache.logging.log4j:log4j-core:2.20.0")
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0")
+
+    runtimeOnly("org.apache.logging.log4j:log4j-layout-template-json")
 }
 
 tasks.withType<Test> {
