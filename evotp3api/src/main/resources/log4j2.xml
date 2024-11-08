@@ -6,13 +6,25 @@
                     pattern="%style{%d{ISO8601}}{gray} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1}}{bright,yellow}: %msg%n%throwable" />
         </Console>
 
-        <Console name="ConsoleJSONAppender" target="SYSTEM_OUT">
-            <JsonLayout complete="false" compact="false" />
-        </Console>
+        <RollingFile name="ProfilingAppender"
+                     fileName="/logs/profiling-log.json"
+                     filePattern="/logs/$${date:yyyy-MM}/profiling-log-%d{dd-MM-yyyy}-%i.json">
+            <JsonTemplateLayout />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                        size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+
+        <!--<Console name="JsonAppender" fileName="./logs/profiling-log.json">
+            <JsonTemplateLayout />
+        </Console>-->
 
         <RollingFile name="RollingFile"
-                     fileName="./logs/spring-boot-logger-log4j2.log"
-                     filePattern="./logs/$${date:yyyy-MM}/spring-boot-logger-log4j2-%d{-dd-MMMM-yyyy}-%i.log.gz">
+                     fileName="/logs/app-log.log"
+                     filePattern="/logs/$${date:yyyy-MM}/app-log-%d{dd-MM-yyyy}-%i.log">
             <PatternLayout>
                 <pattern>%d %p %C{1} [%t] %m%n</pattern>
             </PatternLayout>
@@ -34,8 +46,8 @@
             <AppenderRef ref="RollingFile" />
         </Root>
 
-        <Logger name="USER_PROFILING_LOGGER" level="TRACE" additivity="false">
-            <AppenderRef ref="ConsoleJSONAppender" />
+        <Logger name="fr.umfds.evotp3api.profiling" level="TRACE" additivity="false">
+            <AppenderRef ref="ProfilingAppender" />
         </Logger>
     </Loggers>
 
