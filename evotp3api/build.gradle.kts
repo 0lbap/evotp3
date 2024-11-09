@@ -26,6 +26,8 @@ dependencies {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
         exclude(group = "org.slf4j", module = "slf4j-api")
     }
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -41,6 +43,8 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0")
 
     runtimeOnly("org.apache.logging.log4j:log4j-layout-template-json")
+    
+    implementation("com.auth0:java-jwt:4.4.0")
 }
 
 tasks.withType<Test> {
