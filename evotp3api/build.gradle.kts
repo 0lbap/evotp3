@@ -26,7 +26,10 @@ dependencies {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
         exclude(group = "org.slf4j", module = "slf4j-api")
     }
-    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-security") {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+        exclude(group = "org.slf4j", module = "slf4j-api")
+    }
 
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
