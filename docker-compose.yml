@@ -13,6 +13,9 @@ services:
       - evotp3api
     ports:
       - "5432:5432"
+    volumes:
+      - ./logs/database:/var/log/postgresql
+    command: ["postgres", "-c", "logging_collector=on", "-c", "log_directory=/var/log/postgresql", "-c", "log_filename=postgresql.log", "-c", "log_statement=all"]
 
   evotp3api:
     build: evotp3api
@@ -28,6 +31,8 @@ services:
       - evotp3apidb
     ports:
       - "8000:8000"
+    volumes:
+      - ./logs/backend:/logs
 
 networks:
   evotp3api:

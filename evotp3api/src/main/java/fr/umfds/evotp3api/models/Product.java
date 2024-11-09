@@ -17,7 +17,7 @@ public class Product {
 
     private String name;
 
-    private long price;
+    private double price;
 
     private Timestamp expirationDate;
 }
