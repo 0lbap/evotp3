@@ -1,2 +1,2 @@
 .env
-logs
+logstash_ingest_data
