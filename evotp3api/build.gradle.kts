@@ -17,6 +17,16 @@ repositories {
     mavenCentral()
 }
 
+// Comment this to work on the original source code (in the `src` directory)
+// This is needed to compile the Spoon generated code into a Jar file (in the `generated-src` directory)
+sourceSets {
+    main {
+        java {
+            setSrcDirs(listOf("generated-src"))
+        }
+    }
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
@@ -48,6 +58,8 @@ dependencies {
     runtimeOnly("org.apache.logging.log4j:log4j-layout-template-json")
     
     implementation("com.auth0:java-jwt:4.4.0")
+
+    implementation("fr.inria.gforge.spoon:spoon-core:11.1.0")
 }
 
 tasks.withType<Test> {
