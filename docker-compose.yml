@@ -207,10 +207,6 @@ services:
         condition: service_healthy
       kibana:
         condition: service_healthy
-      evotp3api:
-        condition: service_started
-      frontend:
-        condition: service_started
     image: docker.elastic.co/logstash/logstash:${STACK_VERSION}
     labels:
       co.elastic.logs/module: logstash
@@ -225,8 +221,8 @@ services:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - ELASTIC_HOSTS=https://es01:9200
-      - NEXT_OTEL_INGEST_HOST=frontend
-      - NEXT_OTEL_INGEST_PORT=4318
+    ports:
+      - "4318:4318"
 
   frontend:
     build: frontend
@@ -234,6 +230,9 @@ services:
     restart: always
     environment:
       NEXT_PUBLIC_API_URL: evotp3api:8000
+      OTEL_LOG_LEVEL: debug
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/json
+      OTEL_EXPORTER_OTLP_LOGS_ENDPOINT: http://127.0.0.1:4318/v1/traces
     networks:
       - evotp3api
     depends_on:
