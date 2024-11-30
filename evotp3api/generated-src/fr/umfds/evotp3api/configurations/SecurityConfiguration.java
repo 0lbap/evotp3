@@ -3,6 +3,7 @@ import fr.umfds.evotp3api.middlewares.JWTAuthenticationFilter;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -29,7 +31,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(c -> c.requestMatchers("/api/v1/auth/**").permitAll().requestMatchers("/**").authenticated()).sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
+        return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(c -> c.requestMatchers("/api/v1/auth/**").permitAll().requestMatchers(antMatcher(HttpMethod.GET, "/api/v1/products")).permitAll().requestMatchers("/**").authenticated()).sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
     @Bean

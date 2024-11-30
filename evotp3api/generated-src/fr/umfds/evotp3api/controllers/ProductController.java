@@ -35,10 +35,6 @@ public class ProductController {
     @GetMapping
     public List<Product> list(@AuthenticationPrincipal
     User userDetails) {
-        ThreadContext.put("user_id", String.valueOf(userDetails.getId()));
-        ThreadContext.put("action", "list_products");
-        logger.info("User is listing all products");
-        ThreadContext.clearAll();
         return productRepository.findAll();
     }
 

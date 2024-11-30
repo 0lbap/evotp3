@@ -62,11 +62,6 @@ public class LoggingInjector extends AbstractProcessor<CtClass<?>> {
             String action = null;
             String additionalThreadContext = null;
             switch (methodName) {
-                case "list" ->
-                    {
-                        message = "User is listing all products";
-                        action = "list_products";
-                    }
                 case "get" ->
                     {
                         message = "User is viewing a product";

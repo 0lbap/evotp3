@@ -190,7 +190,7 @@ services:
       - certs:/usr/share/metricbeat/certs
       - metricbeatdata01:/usr/share/metricbeat/data
       - "./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/run/user/1000/docker.sock:/var/run/docker.sock:ro"
       - "/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro"
       - "/proc:/hostfs/proc:ro"
       - "/:/hostfs:ro"
@@ -207,6 +207,10 @@ services:
         condition: service_healthy
       kibana:
         condition: service_healthy
+      evotp3api:
+        condition: service_started
+      frontend:
+        condition: service_started
     image: docker.elastic.co/logstash/logstash:${STACK_VERSION}
     labels:
       co.elastic.logs/module: logstash
@@ -221,6 +225,24 @@ services:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - ELASTIC_HOSTS=https://es01:9200
+      - NEXT_OTEL_INGEST_HOST=frontend
+      - NEXT_OTEL_INGEST_PORT=4318
+
+  frontend:
+    build: frontend
+    image: frontend 
+    restart: always
+    environment:
+      NEXT_PUBLIC_API_URL: evotp3api:8000
+    networks:
+      - evotp3api
+    depends_on:
+      - evotp3apidb
+    ports:
+      - "3000:3000"
+    #volumes:
+      #  - ./logstash_ingest_data/backend:/logs
+
 
 volumes:
   certs:
