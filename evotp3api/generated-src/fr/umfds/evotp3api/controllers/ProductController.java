@@ -35,6 +35,10 @@ public class ProductController {
     @GetMapping
     public List<Product> list(@AuthenticationPrincipal
     User userDetails) {
+        ThreadContext.put("user_id", String.valueOf(userDetails.getId()));
+        ThreadContext.put("action", "list_products");
+        logger.info("User is listing all products");
+        ThreadContext.clearAll();
         return productRepository.findAll();
     }
 
@@ -91,7 +95,6 @@ public class ProductController {
         ThreadContext.put("action", "update_product");
         logger.info("User is updating a product");
         ThreadContext.clearAll();
-        productRepository.deleteById(id);
         if (productRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ("Product with ID " + id) + " not found");
         }

@@ -52,7 +52,6 @@ public class ProductController {
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public Product update(@PathVariable Long id, @RequestBody Product product) {
-        productRepository.deleteById(id);
         if (productRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with ID " + id + " not found");
         }
