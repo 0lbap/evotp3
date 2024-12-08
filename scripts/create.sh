@@ -41,20 +41,25 @@ product2_id=$(echo "$product2" | jq -r '.id')
 product3_id=$(echo "$product3" | jq -r '.id')
 product4_id=$(echo "$product4" | jq -r '.id')
 
+product4_modified=$(curl http://127.0.0.1:8000/api/v1/products/${product4_id} \
+  -X PUT\
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $seriai_token" \
+  -d '{ "name": "EditedProduct", "price": 400, "expirationDate": "2024-12-08T13:28:26Z" }')
 
-echo $(curl http://127.0.0.1:8000/api/v1/products \
+echo $(curl http://127.0.0.1:8000/api/v1/products/$product2_id \
   -X DELETE \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $seriai_token" \
   -d "{ \"id\": $product2_id }")
 
-echo $(curl http://127.0.0.1:8000/api/v1/products \
+echo $(curl http://127.0.0.1:8000/api/v1/products/$product3_id \
   -X DELETE \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $seriai_token" \
   -d "{ \"id\": $product3_id }")
 
-echo $(curl http://127.0.0.1:8000/api/v1/products \
+echo $(curl http://127.0.0.1:8000/api/v1/products/$product4_id \
   -X DELETE \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $seriai_token" \
