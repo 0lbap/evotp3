@@ -43,16 +43,19 @@ product4_id=$(echo "$product4" | jq -r '.id')
 
 
 echo $(curl http://127.0.0.1:8000/api/v1/products \
+  -X DELETE \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $seriai_token" \
   -d "{ \"id\": $product2_id }")
 
 echo $(curl http://127.0.0.1:8000/api/v1/products \
+  -X DELETE \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $seriai_token" \
   -d "{ \"id\": $product3_id }")
 
 echo $(curl http://127.0.0.1:8000/api/v1/products \
+  -X DELETE \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $seriai_token" \
   -d "{ \"id\": $product4_id }")
